@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CID — The Design Process · Powered by Logeek</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0A1628;--deep:#0E2A47;--teal:#0E8A8A;--coral:#FF6B5C;--sand:#F5EFE6;
+  --paper:#FAF7F2;--gold:#D4A857;--line:#E5DDD0;--muted:#6B7280;--green:#0F766E;--white:#FFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Manrope',sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* ── NAV ── */
+.top-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,22,40,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.06);padding:0 60px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{font-family:'Fraunces',serif;font-size:16px;font-weight:600;color:#FFF;display:flex;align-items:center;gap:6px}
+.nav-brand .dot{width:6px;height:6px;border-radius:50%;background:var(--coral)}
+.nav-links{display:flex;gap:28px}
+.nav-links a{font-size:11px;text-transform:uppercase;letter-spacing:1.8px;color:#7A8B9F;text-decoration:none;font-weight:600;transition:color 0.2s}
+.nav-links a:hover{color:#FFF}
+.nav-tag{padding:4px 12px;border-radius:12px;font-size:10px;font-weight:600;background:rgba(212,168,87,0.15);color:var(--gold);letter-spacing:0.5px}
+
+/* ── HERO ── */
+.hero{background:var(--ink);color:#FFF;padding:140px 80px 120px;position:relative;overflow:hidden;min-height:100vh;display:flex;align-items:center}
+.hero::before{content:'';position:absolute;top:-30%;right:-15%;width:70%;height:160%;background:radial-gradient(circle,rgba(255,107,92,0.08) 0%,transparent 55%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(0deg,var(--paper),transparent)}
+.hero-inner{max-width:1300px;margin:0 auto;position:relative;z-index:2}
+.hero-eye{font-size:11px;text-transform:uppercase;letter-spacing:3px;color:var(--gold);font-weight:700;margin-bottom:22px;display:flex;align-items:center;gap:14px}
+.hero-eye::before{content:'';width:36px;height:1px;background:var(--gold)}
+.hero h1{font-family:'Fraunces',serif;font-weight:400;font-size:80px;line-height:1.0;letter-spacing:-3px;max-width:1000px;margin-bottom:24px}
+.hero h1 em{font-style:italic;color:var(--coral);font-weight:300}
+.hero .sub{font-size:19px;color:#C5D2E0;max-width:700px;font-weight:300;line-height:1.65}
+.hero-meta{display:flex;gap:48px;margin-top:50px;padding-top:36px;border-top:1px solid rgba(255,255,255,0.08)}
+.hm-item{display:flex;flex-direction:column}
+.hm-label{font-size:10px;text-transform:uppercase;letter-spacing:2.5px;color:#7A8B9F;margin-bottom:6px;font-weight:600}
+.hm-val{font-family:'Fraunces',serif;font-size:22px;font-weight:500;color:#FFF}
+
+/* ── SECTIONS ── */
+.sec{max-width:1300px;margin:0 auto;padding:100px 80px}
+.sec-eye{display:inline-flex;align-items:center;gap:12px;font-size:11px;text-transform:uppercase;letter-spacing:2.8px;font-weight:700;margin-bottom:18px}
+.sec-eye.teal{color:var(--teal)}
+.sec-eye.teal::before{content:'';width:30px;height:1px;background:var(--teal)}
+.sec-eye.gold{color:var(--gold)}
+.sec-eye.gold::before{content:'';width:30px;height:1px;background:var(--gold)}
+.sec-eye.coral{color:var(--coral)}
+.sec-eye.coral::before{content:'';width:30px;height:1px;background:var(--coral)}
+.sec h2{font-family:'Fraunces',serif;font-weight:500;font-size:52px;line-height:1.05;letter-spacing:-1.5px;margin-bottom:16px;max-width:900px}
+.sec h2 em{font-style:italic;color:var(--coral);font-weight:400}
+.sec .intro{font-size:17px;color:var(--muted);max-width:780px;line-height:1.7;margin-bottom:56px}
+
+/* ── BENCHMARK CARDS ── */
+.bench-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.bench-card{background:var(--white);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:all 0.3s}
+.bench-card:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(10,22,40,0.08)}
+.bench-top{padding:24px;min-height:100px;display:flex;flex-direction:column;justify-content:flex-end}
+.bench-top .bt-tag{display:inline-flex;padding:3px 10px;border-radius:12px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;backdrop-filter:blur(6px);width:fit-content}
+.bench-top h3{font-family:'Fraunces',serif;font-size:22px;font-weight:500;line-height:1.1}
+.bench-top .url{font-family:'JetBrains Mono',monospace;font-size:10px;opacity:0.7;margin-top:3px}
+.bench-body{padding:20px 24px 24px}
+.bench-body p{font-size:13.5px;line-height:1.6;color:var(--ink);margin-bottom:14px}
+.extract-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.extract{padding:10px 12px;border-radius:6px;font-size:12px;line-height:1.5;border-left:3px solid}
+.extract strong{display:block;font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;font-weight:700}
+.extract.take{background:rgba(15,118,110,0.04);border-color:var(--green)}
+.extract.take strong{color:var(--green)}
+.extract.avoid{background:rgba(255,107,92,0.04);border-color:var(--coral)}
+.extract.avoid strong{color:var(--coral)}
+.dna-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.dna-tag{padding:4px 10px;border-radius:12px;font-size:10px;font-weight:600;background:var(--sand);color:var(--ink)}
+
+/* ── DARK SECTIONS ── */
+.dark-sec{background:var(--ink);color:#FFF;padding:100px 0}
+.dark-sec .sec{padding-top:0;padding-bottom:0}
+.dark-sec h2{color:#FFF}
+.dark-sec h2 em{color:var(--coral)}
+.dark-sec .intro{color:#7A8B9F}
+
+/* ── PRINCIPLES GRID ── */
+.prin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.prin-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:24px;transition:all 0.3s}
+.prin-card:hover{background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.14)}
+.prin-card .icon{font-size:24px;margin-bottom:12px}
+.prin-card h4{font-family:'Fraunces',serif;font-size:18px;font-weight:500;margin-bottom:8px;color:#FFF}
+.prin-card p{font-size:13px;color:#9CAABB;line-height:1.6}
+.prin-card .sources{margin-top:12px;display:flex;gap:5px;flex-wrap:wrap}
+.src{padding:2px 8px;border-radius:10px;font-size:9px;font-weight:600;letter-spacing:0.3px}
+
+/* ── FERRARI SECTION ── */
+.ferrari-sec{background:linear-gradient(135deg,#1a0a2e 0%,var(--ink) 40%,var(--deep) 100%);padding:120px 0;position:relative;overflow:hidden}
+.ferrari-sec::before{content:'';position:absolute;top:-40%;right:-20%;width:80%;height:180%;background:radial-gradient(circle,rgba(212,168,87,0.1) 0%,transparent 50%);pointer-events:none}
+.ferrari-sec .sec{padding-top:0;padding-bottom:0;position:relative;z-index:2}
+.ferrari-sec h2{color:#FFF}
+.ferrari-sec h2 em{color:var(--gold)}
+.ferrari-sec .intro{color:#9CAABB}
+
+.ferrari-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:50px}
+.ferrari-card{border-radius:18px;padding:36px;transition:all 0.3s}
+.ferrari-card.gold-card{background:rgba(212,168,87,0.08);border:1px solid rgba(212,168,87,0.2)}
+.ferrari-card.dark-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08)}
+.ferrari-card:hover{transform:translateY(-2px)}
+.ferrari-card .fc-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:14px}
+.ferrari-card.gold-card .fc-label{color:var(--gold)}
+.ferrari-card.dark-card .fc-label{color:var(--coral)}
+.ferrari-card h3{font-family:'Fraunces',serif;font-size:26px;font-weight:500;color:#FFF;margin-bottom:12px;line-height:1.15}
+.ferrari-card h3 em{font-style:italic;font-weight:400}
+.ferrari-card p{font-size:14.5px;color:#9CAABB;line-height:1.65}
+.ferrari-card .highlight{color:#FFF;font-weight:600}
+.ferrari-card .mono{font-family:'JetBrains Mono',monospace;color:var(--gold);font-size:13px;font-weight:600}
+
+.flow-strip{margin-top:50px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:32px 36px}
+.flow-strip .fl-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--gold);font-weight:700;margin-bottom:18px}
+.flow-compare{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.flow-col h4{font-family:'Fraunces',serif;font-size:16px;color:#FFF;margin-bottom:10px;font-weight:500}
+.flow-col .flow-steps{display:flex;flex-direction:column;gap:6px}
+.flow-step{display:flex;align-items:center;gap:10px;font-size:13px;color:#9CAABB}
+.flow-step .num{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;min-width:22px;color:var(--muted)}
+.flow-step.active{color:#FFF}
+.flow-step.active .num{color:var(--coral)}
+.flow-arrow{color:var(--coral);font-size:10px}
+
+/* ── QUIVER PREVIEW ── */
+.quiver-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:50px}
+.quiver-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;transition:all 0.3s;position:relative;overflow:hidden}
+.quiver-card:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15)}
+.quiver-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.quiver-card.all::before{background:var(--teal)}
+.quiver-card.perf::before{background:var(--coral)}
+.quiver-card.retro::before{background:var(--gold)}
+.quiver-card.prog::before{background:var(--teal)}
+.quiver-card.grov::before{background:var(--green)}
+.quiver-card.sig::before{background:var(--gold)}
+.qc-badge{display:inline-flex;padding:3px 10px;border-radius:10px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:12px}
+.quiver-card h4{font-family:'Fraunces',serif;font-size:20px;font-weight:500;color:#FFF;margin-bottom:4px}
+.quiver-card .qc-sub{font-family:'Fraunces',serif;font-size:13px;font-style:italic;color:#7A8B9F;margin-bottom:14px}
+.qc-specs{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--teal);line-height:1.8;margin-bottom:14px}
+.qc-price{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:600;color:var(--coral)}
+.qc-price span{font-size:12px;color:#7A8B9F;font-weight:400}
+.qc-avail{margin-top:12px;display:flex;flex-direction:column;gap:4px}
+.avail-pill{font-size:11px;padding:3px 0;display:flex;align-items:center;gap:6px}
+.avail-pill.open{color:var(--green)}
+.avail-pill.booked{color:#7A8B9F;text-decoration:line-through}
+.avail-pill.coming{color:var(--gold)}
+
+/* ── DESIGN SYSTEM ── */
+.ds-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:40px}
+.ds-card{background:var(--white);border-radius:16px;padding:32px;border:1px solid var(--line)}
+.ds-card h3{font-family:'Fraunces',serif;font-size:20px;font-weight:600;color:var(--deep);margin-bottom:20px}
+.swatch-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px}
+.swatch{aspect-ratio:1;border-radius:8px;display:flex;align-items:flex-end;padding:6px;font-size:8px;font-family:'JetBrains Mono',monospace;font-weight:600;border:1px solid var(--line)}
+.type-row{padding:12px 0;border-bottom:1px solid var(--line)}
+.type-row:last-child{border:none}
+.type-row .label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);font-weight:600;margin-bottom:4px}
+
+/* ── TIMELINE ── */
+.timeline{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.day-card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:28px;position:relative;overflow:hidden;transition:all 0.3s}
+.day-card:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(10,22,40,0.06)}
+.day-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--coral),var(--gold))}
+.day-card.found::before{background:linear-gradient(90deg,var(--teal),var(--green))}
+.day-card.review::before{background:linear-gradient(90deg,var(--gold),var(--coral))}
+.dc-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.dc-num{font-family:'Fraunces',serif;font-size:48px;font-weight:300;line-height:1;letter-spacing:-2px;color:var(--ink)}
+.dc-num em{font-style:italic;color:var(--coral)}
+.dc-tag{padding:4px 10px;border-radius:14px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.dc-tag.found{background:rgba(14,138,138,0.1);color:var(--teal)}
+.dc-tag.wire{background:rgba(212,168,87,0.15);color:#9A7128}
+.dc-tag.visual{background:rgba(255,107,92,0.1);color:var(--coral)}
+.dc-tag.rev{background:rgba(15,118,110,0.1);color:var(--green)}
+.day-card h3{font-family:'Fraunces',serif;font-size:20px;font-weight:600;color:var(--deep);margin-bottom:8px;line-height:1.2}
+.day-card .dc-desc{font-size:13.5px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.dc-list{list-style:none}
+.dc-list li{font-size:12.5px;color:var(--ink);padding:5px 0 5px 18px;position:relative;line-height:1.5}
+.dc-list li::before{content:'';position:absolute;left:0;top:12px;width:7px;height:1px;background:var(--coral)}
+.dc-foot{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid var(--line);font-size:11px;margin-top:14px}
+.dc-owner{color:var(--ink);font-weight:600}
+.dc-deliver{color:var(--teal);font-weight:600;font-family:'JetBrains Mono',monospace;font-size:10px}
+
+/* ── FOOTER ── */
+.footer{background:var(--ink);color:#FFF;padding:80px;text-align:center}
+.footer-logo{font-family:'Fraunces',serif;font-size:36px;font-weight:500;margin-bottom:6px}
+.footer-logo em{color:var(--coral);font-style:italic}
+.footer-tag{font-family:'Fraunces',serif;font-size:16px;font-style:italic;color:#7A8B9F;margin-bottom:30px}
+.footer-meta{font-size:11px;color:#5A6678;letter-spacing:1px;margin-bottom:6px}
+.footer-line{width:60px;height:1px;background:rgba(255,255,255,0.1);margin:24px auto}
+
+@media(max-width:1024px){
+  .hero{padding:120px 24px 80px}
+  .hero h1{font-size:44px}
+  .sec{padding:60px 24px}
+  .sec h2{font-size:36px}
+  .bench-grid,.prin-grid,.quiver-grid{grid-template-columns:1fr}
+  .timeline{grid-template-columns:1fr}
+  .ferrari-grid{grid-template-columns:1fr}
+  .flow-compare{grid-template-columns:1fr}
+  .ds-grid{grid-template-columns:1fr}
+  .hero-meta{flex-wrap:wrap;gap:24px}
+  .extract-grid{grid-template-columns:1fr}
+  .top-nav{padding:0 20px}
+  .nav-links{display:none}
+  .footer{padding:50px 24px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ FIXED NAV ═══ -->
+<nav class="top-nav">
+  <div class="nav-brand">CID<span class="dot"></span></div>
+  <div class="nav-links">
+    <a href="#benchmarks">Benchmarks</a>
+    <a href="#principles">Principles</a>
+    <a href="#ferrari">The Board</a>
+    <a href="#quiver">The Quiver</a>
+    <a href="#system">Design System</a>
+    <a href="#roadmap">Roadmap</a>
+  </div>
+  <div class="nav-tag">Powered by Logeek</div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-eye">CID Booking Platform · Design Process Document</div>
+    <h1>The Design Process of <em>CID</em>.</h1>
+    <p class="sub">This document captures the full design journey — from competitive benchmarking and brand principles to the foundational insight that reoriented the entire platform: the CI Surfboard is the protagonist. Everything else follows.</p>
+    <div class="hero-meta">
+      <div class="hm-item"><span class="hm-label">Client</span><span class="hm-val">All Ocean Surf</span></div>
+      <div class="hm-item"><span class="hm-label">Platform</span><span class="hm-val">CID Booking</span></div>
+      <div class="hm-item"><span class="hm-label">Phase</span><span class="hm-val">Design Sprint</span></div>
+      <div class="hm-item"><span class="hm-label">Duration</span><span class="hm-val">10 Days</span></div>
+      <div class="hm-item"><span class="hm-label">Design</span><span class="hm-val">Logeek · Dev313</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CHAPTER 1: BENCHMARKS ═══ -->
+<section class="sec" id="benchmarks">
+  <div class="sec-eye teal">Chapter 01 · Competitive Intelligence</div>
+  <h2>Six brands. One <em>design language</em>.</h2>
+  <p class="intro">During the kickoff workshop, six benchmark brands were identified as the aspirational reference set. Each was analyzed for the specific UI/UX patterns that translate to CID. These brands span luxury hospitality, automotive performance, editorial commerce, fintech, and peer-to-peer marketplaces — and together they define what "premium surf travel" feels like.</p>
+
+  <div class="bench-grid">
+
+    <!-- NIHI -->
+    <div class="bench-card">
+      <div class="bench-top" style="background:linear-gradient(135deg,#2C2318,#1a1510)">
+        <div class="bt-tag" style="background:rgba(201,178,140,0.2);color:#C9B28C">Luxury Hospitality</div>
+        <h3 style="color:#F5EFE6">NIHI</h3>
+        <div class="url" style="color:#C9B28C">nihi.com</div>
+      </div>
+      <div class="bench-body">
+        <p>Full-bleed cinematic photography. Sand and earth palette. The UI disappears and the imagery sells. Multi-property architecture (Sumba / Rote) with shared navigation — the same pattern CID uses for Costa Rica / Portugal.</p>
+        <div class="extract-grid">
+          <div class="extract take"><strong>Take</strong>Cinematic full-bleed hero with text overlay. One immersive moment.</div>
+          <div class="extract take"><strong>Take</strong>Multi-property navigation with shared brand, separate content partitions.</div>
+        </div>
+        <div class="dna-tags"><span class="dna-tag">Cinematic Hero</span><span class="dna-tag">Earth Tones</span><span class="dna-tag">Minimal Chrome</span></div>
+      </div>
+    </div>
+
+    <!-- 1 Hotels -->
+    <div class="bench-card">
+      <div class="bench-top" style="background:linear-gradient(135deg,#1A3A2A,#0f2218)">
+        <div class="bt-tag" style="background:rgba(90,143,86,0.2);color:#8CC486">Nature-Forward</div>
+        <h3 style="color:#FFF">1 Hotels</h3>
+        <div class="url" style="color:#8CC486">1hotels.com</div>
+      </div>
+      <div class="bench-body">
+        <p>Nature-first identity where sustainability is the brand. Location picker with real photos. Mission Membership woven throughout — never a separate marketing page. Gallery-style scrollers for experiences.</p>
+        <div class="extract-grid">
+          <div class="extract take"><strong>Take</strong>Membership benefits woven contextually into every page — not siloed.</div>
+          <div class="extract take"><strong>Take</strong>Organic textures and materiality as visual backgrounds.</div>
+        </div>
+        <div class="dna-tags"><span class="dna-tag">Photo Grid</span><span class="dna-tag">Woven Membership</span><span class="dna-tag">Natural Textures</span></div>
+      </div>
+    </div>
+
+    <!-- Porsche -->
+    <div class="bench-card">
+      <div class="bench-top" style="background:linear-gradient(135deg,#0A0A0A,#1a1a1a)">
+        <div class="bt-tag" style="background:rgba(213,0,28,0.12);color:#FF4D5A">Performance</div>
+        <h3 style="color:#FFF">Porsche</h3>
+        <div class="url" style="color:#999">porsche.com</div>
+      </div>
+      <div class="bench-body">
+        <p>Configurator-driven UX: "Build Your Own" is the primary CTA. Product card grid with specs as the hero. Price always visible, never hidden. This is the direct model for CID's board selection experience.</p>
+        <div class="extract-grid">
+          <div class="extract take"><strong>Take</strong>"Build Your Trip" configurator — board first, then destination, then experiences.</div>
+          <div class="extract take"><strong>Take</strong>Specs displayed as design elements: dimensions, volume, fin setup in monospace.</div>
+        </div>
+        <div class="dna-tags"><span class="dna-tag">Configurator UX</span><span class="dna-tag">Specs-as-Content</span><span class="dna-tag">Price-Forward</span></div>
+      </div>
+    </div>
+
+    <!-- Net-A-Porter -->
+    <div class="bench-card">
+      <div class="bench-top" style="background:linear-gradient(135deg,#1A1A1A,#111)">
+        <div class="bt-tag" style="background:rgba(255,255,255,0.08);color:#CCC">Editorial Commerce</div>
+        <h3 style="color:#FFF">Net-A-Porter</h3>
+        <div class="url" style="color:#999">net-a-porter.com</div>
+      </div>
+      <div class="bench-body">
+        <p>Editorial-first commerce: the homepage reads like a magazine. Curated collections by theme, not category. "Wear To Where" becomes CID's "Surf Where" — occasion-based curation powered by editorial voice.</p>
+        <div class="extract-grid">
+          <div class="extract take"><strong>Take</strong>Editorial collections: "Weekend in Nosara," "Family Adventures" — curated by theme.</div>
+          <div class="extract take"><strong>Take</strong>Serif + sans-serif typography hierarchy. Fraunces + Manrope is validated.</div>
+        </div>
+        <div class="dna-tags"><span class="dna-tag">Editorial Curation</span><span class="dna-tag">Magazine Layout</span><span class="dna-tag">Typography</span></div>
+      </div>
+    </div>
+
+    <!-- Revolut -->
+    <div class="bench-card">
+      <div class="bench-top" style="background:linear-gradient(135deg,#0D0D18,#1a1a2e)">
+        <div class="bt-tag" style="background:rgba(0,102,255,0.12);color:#4D9AFF">Fintech</div>
+        <h3 style="color:#FFF">Revolut</h3>
+        <div class="url" style="color:#4D9AFF">revolut.com</div>
+      </div>
+      <div class="bench-body">
+        <p>Dark mode dashboard with gradient card elements. Monospace numbers for all financial data. Onboarding that feels like storytelling. Real-time activity feeds with high information density and zero clutter.</p>
+        <div class="extract-grid">
+          <div class="extract take"><strong>Take</strong>Admin dashboard data density: KPI cards, real-time feed, monospace financial data.</div>
+          <div class="extract take"><strong>Take</strong>Progressive onboarding as storytelling — unfolds step by step.</div>
+        </div>
+        <div class="dna-tags"><span class="dna-tag">Data Dashboard</span><span class="dna-tag">Monospace Numbers</span><span class="dna-tag">Micro-Animations</span></div>
+      </div>
+    </div>
+
+    <!-- Vinted -->
+    <div class="bench-card">
+      <div class="bench-top" style="background:linear-gradient(135deg,#E8F5F5,#d4eded)">
+        <div class="bt-tag" style="background:rgba(9,177,186,0.1);color:#07898F">Marketplace</div>
+        <h3 style="color:var(--ink)">Vinted</h3>
+        <div class="url" style="color:#07898F">vinted.es</div>
+      </div>
+      <div class="bench-body">
+        <p>Infinite-scroll product grid with standardized cards. Horizontal tab filtering for rapid scanning. Price + trust badge on every card. Mobile-first feed design. Extreme simplicity — the product IS the experience.</p>
+        <div class="extract-grid">
+          <div class="extract take"><strong>Take</strong>Trust signals on every card: rating + "Secured by ONVO" payment badge.</div>
+          <div class="extract take"><strong>Take</strong>Horizontal tab filters: All · Boards · Lessons · Food · Adventures.</div>
+        </div>
+        <div class="dna-tags"><span class="dna-tag">Card Grid</span><span class="dna-tag">Trust Badges</span><span class="dna-tag">Mobile-First</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ CHAPTER 2: DESIGN PRINCIPLES ═══ -->
+<section class="dark-sec" id="principles">
+  <div class="sec">
+    <div class="sec-eye gold">Chapter 02 · Design Principles</div>
+    <h2>The 12 principles <em>driving the design</em>.</h2>
+    <p class="intro">Cross-referenced across all six benchmarks. When three or more brands agree on a principle, it becomes a CID design law. These principles guide every screen, every interaction, every pixel.</p>
+
+    <div class="prin-grid">
+      <div class="prin-card">
+        <div class="icon">📷</div><h4>Photography-Led, Not UI-Led</h4>
+        <p>The imagery IS the brand. UI chrome stays transparent. Full-bleed heroes. Editorial-quality photography as the primary design element.</p>
+        <div class="sources"><span class="src" style="background:rgba(201,178,140,0.2);color:#C9B28C">NIHI</span><span class="src" style="background:rgba(90,143,86,0.2);color:#8CC486">1 Hotels</span><span class="src" style="background:rgba(255,255,255,0.06);color:#CCC">Net-A-Porter</span></div>
+      </div>
+      <div class="prin-card">
+        <div class="icon">💰</div><h4>Price Always Visible</h4>
+        <p>Never hide the cost behind a click. "$45/day" on the card. Every board, every experience, every membership tier — price up front.</p>
+        <div class="sources"><span class="src" style="background:rgba(213,0,28,0.12);color:#FF4D5A">Porsche</span><span class="src" style="background:rgba(9,177,186,0.12);color:#09B1BA">Vinted</span><span class="src" style="background:rgba(255,255,255,0.06);color:#CCC">Net-A-Porter</span></div>
+      </div>
+      <div class="prin-card">
+        <div class="icon">✍️</div><h4>Editorial Voice Over Catalog</h4>
+        <p>"Sunset Sushi & Surf" not "Food Experience #3." Curated by editorial theme. The brand tells stories, not lists features.</p>
+        <div class="sources"><span class="src" style="background:rgba(255,255,255,0.06);color:#CCC">Net-A-Porter</span><span class="src" style="background:rgba(201,178,140,0.2);color:#C9B28C">NIHI</span><span class="src" style="background:rgba(90,143,86,0.2);color:#8CC486">1 Hotels</span></div>
+      </div>
+      <div class="prin-card">
+        <div class="icon">🏄</div><h4>The Board is the Protagonist</h4>
+        <p>The CI surfboard leads the experience — not the destination. You choose your board first. Everything else wraps around it. <em>From the client kickoff.</em></p>
+        <div class="sources"><span class="src" style="background:rgba(213,0,28,0.12);color:#FF4D5A">Porsche</span><span class="src" style="background:rgba(212,168,87,0.2);color:#D4A857">★ Client</span></div>
+      </div>
+      <div class="prin-card">
+        <div class="icon">📊</div><h4>Data Precision for Operators</h4>
+        <p>Admin dashboards = fintech energy. Monospace numbers. KPI cards. Real-time feeds. Dark mode. Peter wants a cockpit, not a pretty admin.</p>
+        <div class="sources"><span class="src" style="background:rgba(0,102,255,0.12);color:#4D9AFF">Revolut</span><span class="src" style="background:rgba(213,0,28,0.12);color:#FF4D5A">Porsche</span></div>
+      </div>
+      <div class="prin-card">
+        <div class="icon">🛡️</div><h4>Trust Signals at Point of Sale</h4>
+        <p>Payment security visible on every booking card. Star ratings. Review counts. "Secured by ONVO" or Stripe badge.</p>
+        <div class="sources"><span class="src" style="background:rgba(9,177,186,0.12);color:#09B1BA">Vinted</span><span class="src" style="background:rgba(0,102,255,0.12);color:#4D9AFF">Revolut</span><span class="src" style="background:rgba(255,255,255,0.06);color:#CCC">Net-A-Porter</span></div>
+      </div>
+      <div class="prin-card">
+        <div class="icon">🎯</div><h4>Warm Palette, Cool Data</h4>
+        <p>Public pages = warm sand/paper tones. Admin/data = dark mode with gradient cards. Two visual modes, one unified design system.</p>
+        <div class="sources"><span class="src" style="background:rgba(201,178,140,0.2);color:#C9B28C">NIHI</span><span class="src" style="background:rgba(90,143,86,0.2);color:#8CC486">1 Hotels</span><span class="src" style="background:rgba(0,102,255,0.12);color:#4D9AFF">Revolut</span></div>
+      </div>
+      <div class="prin-card">
+        <div class="icon">📱</div><h4>Mobile-First Card Grid</h4>
+        <p>2-column mobile grid. Horizontal scroll tab filters. Cards no taller than 2/3 viewport. Thumb-zone CTAs. Scan-at-speed density.</p>
+        <div class="sources"><span class="src" style="background:rgba(9,177,186,0.12);color:#09B1BA">Vinted</span><span class="src" style="background:rgba(0,102,255,0.12);color:#4D9AFF">Revolut</span></div>
+      </div>
+      <div class="prin-card">
+        <div class="icon">⭐</div><h4>Membership Woven, Not Siloed</h4>
+        <p>Surfclub appears contextually on every page — not as a separate marketing page. Visible at booking, on cards, in the member experience.</p>
+        <div class="sources"><span class="src" style="background:rgba(90,143,86,0.2);color:#8CC486">1 Hotels</span><span class="src" style="background:rgba(201,178,140,0.2);color:#C9B28C">NIHI</span></div>
+      </div>
+      <div class="prin-card">
+        <div class="icon">🌊</div><h4>Organic Textures & Motion</h4>
+        <p>Sand grain overlays. Wave-path SVG decorations. Parallax on scroll. Subtle float animations. The digital experience feels physical.</p>
+        <div class="sources"><span class="src" style="background:rgba(201,178,140,0.2);color:#C9B28C">NIHI</span><span class="src" style="background:rgba(90,143,86,0.2);color:#8CC486">1 Hotels</span></div>
+      </div>
+      <div class="prin-card">
+        <div class="icon">🎨</div><h4>Specs as Design Element</h4>
+        <p>Board dimensions, wave height, water temp in monospace type. Surf conditions are visual design. Data IS the aesthetic.</p>
+        <div class="sources"><span class="src" style="background:rgba(213,0,28,0.12);color:#FF4D5A">Porsche</span><span class="src" style="background:rgba(0,102,255,0.12);color:#4D9AFF">Revolut</span></div>
+      </div>
+      <div class="prin-card">
+        <div class="icon">🧭</div><h4>Progressive Disclosure</h4>
+        <p>Destination → experiences appear → dates narrow availability → checkout simplifies. Unfold, don't overwhelm.</p>
+        <div class="sources"><span class="src" style="background:rgba(0,102,255,0.12);color:#4D9AFF">Revolut</span><span class="src" style="background:rgba(213,0,28,0.12);color:#FF4D5A">Porsche</span><span class="src" style="background:rgba(255,255,255,0.06);color:#CCC">Net-A-Porter</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CHAPTER 3: THE BOARD IS THE FERRARI ═══ -->
+<section class="ferrari-sec" id="ferrari">
+  <div class="sec">
+    <div class="sec-eye gold">Chapter 03 · The Foundational Insight</div>
+    <h2>The board is the <em>Ferrari</em>.</h2>
+    <p class="intro">This insight emerged directly from the client kickoff and it changed the entire platform architecture. CID is not a travel platform that offers surfboards. It is a surfboard platform that takes you to incredible destinations.</p>
+
+    <div class="ferrari-grid">
+      <div class="ferrari-card gold-card">
+        <div class="fc-label">The Analogy</div>
+        <h3>You can rent a car <em>anywhere</em>.</h3>
+        <p>But you go to Maranello to drive a <span class="highlight">Ferrari</span>. You go to the Nürburgring to push a <span class="highlight">Porsche</span>. The machine is the reason. The destination is the stage.</p>
+        <p style="margin-top:14px">CID says the same thing: <span class="highlight">you can surf anywhere. But you come to CID to ride a Channel Islands board.</span> 20 World Titles. 500K+ community. The board that the pros ride — and CID puts it in your hands.</p>
+      </div>
+      <div class="ferrari-card gold-card">
+        <div class="fc-label">The Hotel Room Analogy</div>
+        <h3>Boards displayed like <em>luxury suites</em>.</h3>
+        <p>A boutique hotel doesn't show "rooms." It shows: <span class="highlight">Presidential Suite with Infinity Pool · Ocean View Penthouse · Garden Villa · Deluxe King.</span> Each has specs, photos, a story, a price. Some are available. Most are booked — creating scarcity and aspiration.</p>
+        <p style="margin-top:14px">CID does the same: <span class="mono">CI Mid Length 6'8" · CI Happy 5'10" · CI Fishbeard 5'6" · CI Sampler 5'11"</span> — each with specs, surf-style fit, real-time availability by location, and daily rate. The board IS the room. The destination IS the hotel. The experience IS room service.</p>
+      </div>
+      <div class="ferrari-card dark-card">
+        <div class="fc-label">What This Changes</div>
+        <h3>Navigation hierarchy <em>reoriented</em>.</h3>
+        <p>"The Quiver" now leads the navigation — before Destinations, before Experiences. This signals the brand priority: <span class="highlight">the board comes first</span>. The AI concierge opens with "Tell me about your surfing and I'll match you with the perfect CI board" — board matching, not destination selection.</p>
+      </div>
+      <div class="ferrari-card dark-card">
+        <div class="fc-label">Scarcity as Conversion</div>
+        <h3>Availability drives <em>urgency</em>.</h3>
+        <p>Boards with only 1 available show <span style="color:var(--coral);font-weight:600">"Last one"</span> in urgent coral. Fully booked boards show "Join waitlist." The CI Ultra Joe showing <span style="color:var(--coral);font-weight:600">"Available (1) — Last one"</span> creates the same urgency as a hotel showing "Only 1 room left!" This is proven conversion psychology applied to surf travel.</p>
+      </div>
+    </div>
+
+    <div class="flow-strip">
+      <div class="fl-label">The Conversion Flow — Before & After</div>
+      <div class="flow-compare">
+        <div class="flow-col">
+          <h4 style="color:#7A8B9F">Traditional Travel Platform</h4>
+          <div class="flow-steps">
+            <div class="flow-step"><span class="num">01</span>Destination</div>
+            <div class="flow-step"><span class="num">02</span>Dates</div>
+            <div class="flow-step"><span class="num">03</span>Experiences</div>
+            <div class="flow-step"><span class="num">04</span>Checkout</div>
+          </div>
+        </div>
+        <div class="flow-col">
+          <h4 style="color:var(--gold)">CID — Board First ★</h4>
+          <div class="flow-steps">
+            <div class="flow-step active"><span class="num">01</span>Choose your board</div>
+            <div class="flow-step active"><span class="num">02</span>"Where can I ride this?"</div>
+            <div class="flow-step active"><span class="num">03</span>Destination + Dates</div>
+            <div class="flow-step active"><span class="num">04</span>Experiences wrap around</div>
+            <div class="flow-step active"><span class="num">05</span>Checkout</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THE QUIVER PREVIEW -->
+    <div style="margin-top:60px">
+      <div class="sec-eye gold" style="margin-bottom:18px">The Quiver · Board Inventory</div>
+      <h2 style="color:#FFF;font-size:36px;margin-bottom:10px">Choose your board. <em>Everything else follows.</em></h2>
+      <p style="color:#7A8B9F;font-size:15px;max-width:680px;margin-bottom:10px">Each board is hand-shaped by the same shapers behind 20 World Titles. Select your ride — we'll show you where it's waiting.</p>
+    </div>
+
+    <div class="quiver-grid" id="quiver">
+      <div class="quiver-card all">
+        <div class="qc-badge" style="background:rgba(14,138,138,0.15);color:var(--teal)">All-Rounder</div>
+        <h4>CI Mid Length 6'8"</h4>
+        <div class="qc-sub">The one that makes everyone look good.</div>
+        <div class="qc-specs">6'8" × 20.75" × 2.63" · 42.7L<br>Fin: 2+1 · Waves: 2–5 ft · All levels</div>
+        <div class="qc-price">$45 <span>/ day</span></div>
+        <div class="qc-avail">
+          <div class="avail-pill open">✓ Nosara — Available (3)</div>
+          <div class="avail-pill booked">✗ Santa Teresa — Fully booked</div>
+          <div class="avail-pill coming">◆ Ericeira — Coming 2026</div>
+        </div>
+      </div>
+      <div class="quiver-card perf">
+        <div class="qc-badge" style="background:rgba(255,107,92,0.12);color:var(--coral)">Performance</div>
+        <h4>CI Happy Everyday 5'10"</h4>
+        <div class="qc-sub">For the surfer who doesn't need a leash.</div>
+        <div class="qc-specs">5'10" × 19.5" × 2.44" · 28.9L<br>Fin: Thruster · Waves: 3–6 ft · Intermediate+</div>
+        <div class="qc-price">$50 <span>/ day</span></div>
+        <div class="qc-avail">
+          <div class="avail-pill open">✓ Nosara — Available (1) <span style="color:var(--coral);font-weight:600">Last one</span></div>
+          <div class="avail-pill booked">✗ Tamarindo — Booked until Apr 28</div>
+        </div>
+      </div>
+      <div class="quiver-card retro">
+        <div class="qc-badge" style="background:rgba(212,168,87,0.15);color:var(--gold)">Retro Twin</div>
+        <h4>CI Fishbeard 5'6"</h4>
+        <div class="qc-sub">Small waves. Big fun. Zero effort.</div>
+        <div class="qc-specs">5'6" × 20.5" × 2.38" · 30.2L<br>Fin: Twin · Waves: 1–4 ft · All levels</div>
+        <div class="qc-price">$40 <span>/ day</span></div>
+        <div class="qc-avail">
+          <div class="avail-pill open">✓ Nosara — Available (5)</div>
+          <div class="avail-pill open">✓ Santa Teresa — Available (2)</div>
+        </div>
+      </div>
+      <div class="quiver-card prog">
+        <div class="qc-badge" style="background:rgba(14,138,138,0.15);color:var(--teal)">Progressive</div>
+        <h4>CI Sampler 5'11"</h4>
+        <div class="qc-sub">The quiver killer. Does everything.</div>
+        <div class="qc-specs">5'11" × 19.25" × 2.44" · 28.5L<br>Fin: Thruster · Waves: 2–6 ft · Intermediate+</div>
+        <div class="qc-price">$55 <span>/ day</span></div>
+        <div class="qc-avail">
+          <div class="avail-pill booked">✗ Nosara — Fully booked</div>
+          <div class="avail-pill coming">◆ Peniche — Coming 2026</div>
+        </div>
+      </div>
+      <div class="quiver-card grov">
+        <div class="qc-badge" style="background:rgba(15,118,110,0.12);color:var(--green)">Groveler</div>
+        <h4>CI Rocket Wide 5'9"</h4>
+        <div class="qc-sub">Gets you into waves others miss.</div>
+        <div class="qc-specs">5'9" × 20" × 2.56" · 31.4L<br>Fin: Thruster · Waves: 1–4 ft · All levels</div>
+        <div class="qc-price">$48 <span>/ day</span></div>
+        <div class="qc-avail">
+          <div class="avail-pill open">✓ Santa Teresa — Available (2)</div>
+        </div>
+      </div>
+      <div class="quiver-card sig" style="border-color:rgba(212,168,87,0.3)">
+        <div class="qc-badge" style="background:rgba(212,168,87,0.2);color:var(--gold)">★ Signature</div>
+        <h4>CI Ultra Joe 6'0"</h4>
+        <div class="qc-sub">The pro model. Earn it.</div>
+        <div class="qc-specs">6'0" × 18.75" × 2.38" · 26.8L<br>Fin: Thruster · Waves: 3–8 ft · Advanced</div>
+        <div class="qc-price">$65 <span>/ day</span></div>
+        <div class="qc-avail">
+          <div class="avail-pill open">✓ Nosara — Available (1) <span style="color:var(--coral);font-weight:600">Last one</span></div>
+          <div style="font-size:10px;color:var(--gold);margin-top:4px">★ Surfclub members get priority reservation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CHAPTER 4: DESIGN SYSTEM ═══ -->
+<section class="sec" id="system">
+  <div class="sec-eye teal">Chapter 04 · Visual Language</div>
+  <h2>The CID <em>design system</em>.</h2>
+  <p class="intro">A provisional design system synthesized from the six benchmarks and refined through the prototype sprint. Ocean depth for trust. Coral for energy and conversion. Gold for membership and premium moments. Sand and paper to soften the digital and reference the beach.</p>
+
+  <div class="ds-grid">
+    <div class="ds-card">
+      <h3>Color Palette</h3>
+      <div class="swatch-row">
+        <div class="swatch" style="background:#0A1628;color:#FFF">Ink<br>#0A1628</div>
+        <div class="swatch" style="background:#0E2A47;color:#FFF">Deep<br>#0E2A47</div>
+        <div class="swatch" style="background:#0E8A8A;color:#FFF">Teal<br>#0E8A8A</div>
+        <div class="swatch" style="background:#FF6B5C;color:#FFF">Coral<br>#FF6B5C</div>
+        <div class="swatch" style="background:#D4A857;color:#1A1A2E">Gold<br>#D4A857</div>
+      </div>
+      <div class="swatch-row">
+        <div class="swatch" style="background:#F5EFE6;color:#0A1628">Sand<br>#F5EFE6</div>
+        <div class="swatch" style="background:#FAF7F2;color:#0A1628">Paper<br>#FAF7F2</div>
+        <div class="swatch" style="background:#0F766E;color:#FFF">Green<br>#0F766E</div>
+        <div class="swatch" style="background:#6B7280;color:#FFF">Muted<br>#6B7280</div>
+        <div class="swatch" style="background:#FFF;color:#0A1628">White<br>#FFFFFF</div>
+      </div>
+    </div>
+    <div class="ds-card">
+      <h3>Typography Pairing</h3>
+      <div class="type-row">
+        <div class="label">Display · Fraunces</div>
+        <div style="font-family:'Fraunces',serif;font-size:30px;font-weight:500;line-height:1.1;color:var(--deep)">Ride the <em style="font-style:italic;color:var(--coral)">legends.</em></div>
+      </div>
+      <div class="type-row">
+        <div class="label">Body · Manrope</div>
+        <div style="font-size:14px;color:var(--ink);line-height:1.55">A premium platform for surf travel — combining CI boards, AI concierge, and curated experiences across Costa Rica and Portugal.</div>
+      </div>
+      <div class="type-row">
+        <div class="label">Data · JetBrains Mono</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--teal);font-weight:600">$45 / day · 6'8" × 20.75" · 42.7L · Nosara ✓</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CHAPTER 5: 10-DAY ROADMAP ═══ -->
+<section class="sec" id="roadmap" style="padding-top:20px">
+  <div class="sec-eye coral">Chapter 05 · Design Roadmap</div>
+  <h2>10 days to a design system <em>the engineers can ship</em>.</h2>
+  <p class="intro">From discovery to dev handoff in two work weeks. Every day produces a reviewable artifact. The 24-hour feedback loop keeps the sprint honest and the team aligned.</p>
+
+  <div class="timeline">
+    <div class="day-card found">
+      <div class="dc-head"><div class="dc-num">0<em>1</em></div><div class="dc-tag found">Foundation</div></div>
+      <h3>Discovery & Asset Audit</h3>
+      <div class="dc-desc">Deep-dive into brand materials, content inventory, and the CI Surfboards visual identity.</div>
+      <ul class="dc-list">
+        <li>Brand & logo audit (CI Surfboards + CID identity)</li>
+        <li>Photo library inventory per location (CR + PT)</li>
+        <li>Content gap analysis and competitive teardown</li>
+        <li>Board photography requirements per model</li>
+      </ul>
+      <div class="dc-foot"><div class="dc-owner">Design Lead + Client</div><div class="dc-deliver">Brief + Asset Index</div></div>
+    </div>
+    <div class="day-card found">
+      <div class="dc-head"><div class="dc-num">0<em>2</em></div><div class="dc-tag found">Foundation</div></div>
+      <h3>IA & User Flows</h3>
+      <div class="dc-desc">Map every page, state, and transition. The skeleton that all wireframes hang from.</div>
+      <ul class="dc-list">
+        <li>Sitemap — all public + member + admin routes</li>
+        <li>Board selection → booking flow (the new board-first path)</li>
+        <li>AI Concierge conversation tree (5 core scenarios)</li>
+        <li>Admin flows per role (Peter, Sheila, Jamie)</li>
+      </ul>
+      <div class="dc-foot"><div class="dc-owner">Design Lead + Engineering</div><div class="dc-deliver">Sitemap + Flow Diagrams</div></div>
+    </div>
+    <div class="day-card">
+      <div class="dc-head"><div class="dc-num">0<em>3</em></div><div class="dc-tag wire">Wireframes</div></div>
+      <h3>Public Pages — Discovery Layer</h3>
+      <div class="dc-desc">Low-fi wireframes for entry points: homepage with split destination hero, country pages, and the board quiver catalog.</div>
+      <ul class="dc-list">
+        <li>Homepage with split destination + board silhouettes</li>
+        <li>The Quiver — board catalog with hotel-style cards</li>
+        <li>Destination detail pages (Nosara, Ericeira)</li>
+        <li>Mobile wireframes for all of the above</li>
+      </ul>
+      <div class="dc-foot"><div class="dc-owner">Design Lead</div><div class="dc-deliver">Wireframe Set</div></div>
+    </div>
+    <div class="day-card">
+      <div class="dc-head"><div class="dc-num">0<em>4</em></div><div class="dc-tag wire">Wireframes</div></div>
+      <h3>Booking Flow & Checkout</h3>
+      <div class="dc-desc">The conversion path from "I want this board" to "It's confirmed." Board-first configurator.</div>
+      <ul class="dc-list">
+        <li>Board detail page with availability by location</li>
+        <li>"Build Your Session" configurator</li>
+        <li>Cart / checkout with dual payment routing</li>
+        <li>Confirmation + WhatsApp opt-in</li>
+      </ul>
+      <div class="dc-foot"><div class="dc-owner">Design Lead</div><div class="dc-deliver">Checkout Flow</div></div>
+    </div>
+    <div class="day-card">
+      <div class="dc-head"><div class="dc-num">0<em>5</em></div><div class="dc-tag wire">Wireframes</div></div>
+      <h3>AI Concierge Interactions</h3>
+      <div class="dc-desc">The chat experience that defines CID's differentiation — now leading with board matching.</div>
+      <ul class="dc-list">
+        <li>Chat widget (collapsed + expanded states)</li>
+        <li>Board-matching conversation flow</li>
+        <li>Inline booking cards within chat</li>
+        <li>WhatsApp templates + voice mode UI</li>
+      </ul>
+      <div class="dc-foot"><div class="dc-owner">Design Lead + Engineering</div><div class="dc-deliver">Concierge Set</div></div>
+    </div>
+    <div class="day-card">
+      <div class="dc-head"><div class="dc-num">0<em>6</em></div><div class="dc-tag wire">Wireframes</div></div>
+      <h3>Surfclub Member Portal</h3>
+      <div class="dc-desc">The VIP layer. Board priority reservation, Merrick Club loyalty, and member-only sessions.</div>
+      <ul class="dc-list">
+        <li>Membership tier selection + upgrade</li>
+        <li>Board reservation flow (priority quiver access)</li>
+        <li>Member dashboard with session history</li>
+        <li>Loyalty points and Merrick Club display</li>
+      </ul>
+      <div class="dc-foot"><div class="dc-owner">Design Lead</div><div class="dc-deliver">Member Set</div></div>
+    </div>
+    <div class="day-card">
+      <div class="dc-head"><div class="dc-num">0<em>7</em></div><div class="dc-tag wire">Wireframes</div></div>
+      <h3>Admin Dashboard — All 7 Roles</h3>
+      <div class="dc-desc">Each role gets a purpose-built UI. Peter's dashboard, Sheila's check-in, Jamie's board prep checklist.</div>
+      <ul class="dc-list">
+        <li>Manager (Peter): revenue, ops, board inventory grid</li>
+        <li>Host (Sheila): iPad guest check-in</li>
+        <li>Board Caddy (Jamie): mobile prep checklist</li>
+        <li>Coaches, Property Manager, CMS</li>
+      </ul>
+      <div class="dc-foot"><div class="dc-owner">Design Lead + Client</div><div class="dc-deliver">Admin Set</div></div>
+    </div>
+    <div class="day-card">
+      <div class="dc-head"><div class="dc-num">0<em>8</em></div><div class="dc-tag visual">Visual</div></div>
+      <h3>Visual Design System</h3>
+      <div class="dc-desc">From wireframes to brand. Color, type, components, motion principles — the complete visual language.</div>
+      <ul class="dc-list">
+        <li>Color palette + type scale finalized</li>
+        <li>Component library: buttons, cards, forms, modals</li>
+        <li>Board photography treatment guidelines</li>
+        <li>Motion principles (timing, easing)</li>
+      </ul>
+      <div class="dc-foot"><div class="dc-owner">Design Lead</div><div class="dc-deliver">Design System</div></div>
+    </div>
+    <div class="day-card">
+      <div class="dc-head"><div class="dc-num">0<em>9</em></div><div class="dc-tag visual">Visual</div></div>
+      <h3>High-Fidelity Hero Pages</h3>
+      <div class="dc-desc">The 5 most important screens — from wireframe to pixel-perfect. The look-and-feel reveal.</div>
+      <ul class="dc-list">
+        <li>Homepage hero with board silhouettes</li>
+        <li>The Quiver — board catalog hi-fi</li>
+        <li>Experience detail / booking moment</li>
+        <li>AI Concierge expanded state</li>
+        <li>Admin dashboard (Peter's view)</li>
+      </ul>
+      <div class="dc-foot"><div class="dc-owner">Design Lead</div><div class="dc-deliver">Hi-Fi Mockups</div></div>
+    </div>
+    <div class="day-card review">
+      <div class="dc-head"><div class="dc-num">1<em>0</em></div><div class="dc-tag rev">Handoff</div></div>
+      <h3>Client Review & Dev Handoff</h3>
+      <div class="dc-desc">Everything locks. Client sign-off on visual direction. Engineering gets specs, tokens, and assets.</div>
+      <ul class="dc-list">
+        <li>90-min client design review session</li>
+        <li>Revisions scoped — ship vs. defer to Phase 2</li>
+        <li>Design tokens exported (colors, type, spacing)</li>
+        <li>Asset library + component documentation</li>
+        <li>Engineering kickoff Day 11 — code begins</li>
+      </ul>
+      <div class="dc-foot"><div class="dc-owner">All Hands</div><div class="dc-deliver">Locked Design + Specs</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<section class="footer">
+  <div class="footer-logo">CID <em>×</em> Logeek</div>
+  <div class="footer-tag">The Design Process · April 2026</div>
+  <div class="footer-line"></div>
+  <div class="footer-meta">ALL OCEAN SURF / CI SURFBOARDS COSTA RICA</div>
+  <div class="footer-meta" style="margin-top:4px">JORGE SEEVERS GRILLO, CSO · ANTONIO SEEVERS MIRANDA, CTO</div>
+  <div class="footer-line"></div>
+  <div class="footer-meta" style="margin-top:8px;font-size:10px;letter-spacing:2px">POWERED BY LOGEEK · DEV313</div>
+</section>
+
+</body>
+</html>
